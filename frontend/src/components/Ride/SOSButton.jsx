@@ -3,7 +3,7 @@ import React from 'react';
 const SOSButton = ({ rideId }) => {
   const handleSOS = async () => {
     try {
-      const response = await fetch('/api/rides/sos', {
+      const response = await fetch('http://localhost:5000/api/rides/sos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

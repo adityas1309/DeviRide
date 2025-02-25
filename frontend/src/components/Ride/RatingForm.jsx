@@ -8,7 +8,7 @@ const RatingForm = ({ rideId }) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch('/api/rides/rate', {
+      const response = await fetch('http://localhost:5000/api/rides/rate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

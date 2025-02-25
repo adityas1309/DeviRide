@@ -9,7 +9,7 @@ const RideHistory = () => {
     const fetchRideHistory = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await fetch('/api/rides/history', {
+        const response = await fetch('http://localhost:5000/api/rides/history', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
