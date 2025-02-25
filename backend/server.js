@@ -14,6 +14,10 @@ const io = socketIo(server, {
 io.on('connection', (socket) => {
   console.log('New client connected');
 
+  socket.on('joinRide', (rideId) => {
+    socket.join(rideId);
+  });
+
   socket.on('disconnect', () => {
     console.log('Client disconnected');
   });

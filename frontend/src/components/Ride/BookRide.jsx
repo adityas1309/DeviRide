@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import RideTracking from './RideTracking';
+import SOSButton from './SOSButton';
 
 const BookRide = () => {
   const [pickup, setPickup] = useState('');
   const [destination, setDestination] = useState('');
+  const [rideId, setRideId] = useState(null);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleBookRide = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch('/api/rides/book', {
+      const response = await fetch('http://localhost:5000/api/rides/book', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -18,11 +22,17 @@ const BookRide = () => {
         },
         body: JSON.stringify({ pickupLocation: pickup, destination }),
       });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
       const data = await response.json();
-      console.log('Ride booked:', data);
+      setRideId(data.ride._id);
       navigate('/ride-history');
     } catch (error) {
       console.error('Error booking ride', error);
+      setError('Failed to book ride. Please try again.');
     }
   };
 
@@ -76,7 +86,14 @@ const BookRide = () => {
               Book Ride
             </button>
           </div>
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </form>
+        {rideId && (
+          <>
+            <RideTracking rideId={rideId} />
+            <SOSButton rideId={rideId} />
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
+import RatingForm from './RatingForm';
 
 const RideHistory = () => {
   const [rides, setRides] = useState([]);
@@ -45,6 +46,7 @@ const RideHistory = () => {
             <p className="text-gray-700">
               <strong>Date:</strong> {new Date(ride.createdAt).toLocaleString()}
             </p>
+            <RatingForm rideId={ride._id} />
           </div>
         ))}
       </div>
