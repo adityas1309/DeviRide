@@ -4,6 +4,7 @@ import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
 import BookRide from './components/Ride/BookRide';
 import Header from './components/Layout/Header';
+import RideHistory from './components/Ride/RideHistory';
 import LandingPage from './components/LandingPage';
 
 const AppLayout = () => {
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/book-ride" element={<BookRide />} />
+          <Route path="/ride-history" component={<RideHistory />} />
         </Route>
       </Routes>
     </BrowserRouter>

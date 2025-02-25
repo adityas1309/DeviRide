@@ -1,11 +1,27 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    console.log('Logging in with:', email, password);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
+      navigate('/book-ride');
+    } catch (error) {
+      console.error('Error logging in', error);
+    }
   };
 
   return (
@@ -16,7 +32,7 @@ const Login = () => {
             Login to SafeRide
           </h2>
         </div>
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="email-address" className="sr-only">
@@ -54,14 +70,19 @@ const Login = () => {
 
           <div>
             <button
-              type="button"
-              onClick={handleLogin}
+              type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Login
             </button>
           </div>
         </form>
+        <p className="text-center text-sm text-gray-600">
+          Don't have an account?{' '}
+          <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
   );

@@ -1,11 +1,29 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 const BookRide = () => {
   const [pickup, setPickup] = useState('');
   const [destination, setDestination] = useState('');
+  const navigate = useNavigate();
 
-  const handleBookRide = () => {
-    console.log('Booking ride from:', pickup, 'to:', destination);
+  const handleBookRide = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch('/api/rides/book', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-auth-token': token,
+        },
+        body: JSON.stringify({ pickupLocation: pickup, destination }),
+      });
+      const data = await response.json();
+      console.log('Ride booked:', data);
+      navigate('/ride-history');
+    } catch (error) {
+      console.error('Error booking ride', error);
+    }
   };
 
   return (
@@ -16,7 +34,7 @@ const BookRide = () => {
             Book a Ride
           </h2>
         </div>
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={handleBookRide}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="pickup" className="sr-only">
@@ -52,8 +70,7 @@ const BookRide = () => {
 
           <div>
             <button
-              type="button"
-              onClick={handleBookRide}
+              type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Book Ride

@@ -1,6 +1,5 @@
 import React from 'react';
-
-import {Link} from "react-router";
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -22,6 +21,9 @@ const Header = () => {
             </Link>
             <Link to="/book-ride" className="text-gray-300 hover:text-white">
               Book a Ride
+            </Link>
+            <Link to="/ride-history" className="text-gray-300 hover:text-white">
+              Ride History
             </Link>
           </nav>
         </div>
